@@ -18,8 +18,12 @@ if cp is not None:
 else:
     GPU_AVAILABLE = False
 
-
 T = TypeVar("T")
+
+
+def pfloat():
+    """Parametric float to switch precision mode real numbers."""
+    return np.float32
 
 
 def list_by_dims(
