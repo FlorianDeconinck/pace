@@ -280,6 +280,7 @@ class Quantity:
         origin: Optional[Sequence[int]] = None,
         extent: Optional[Sequence[int]] = None,
         gt4py_backend: Union[str, None] = None,
+        allow_mismatch_float_precision: bool = False,
     ):
         """
         Initialize a Quantity.
@@ -295,7 +296,11 @@ class Quantity:
                 storage attribute is disabled and will raise an exception. Will raise
                 a TypeError if this is given with a gt4py storage type as data
         """
-        if _is_float(data.dtype) and data.dtype != pfloat():
+        if (
+            not allow_mismatch_float_precision
+            and _is_float(data.dtype)
+            and data.dtype != pfloat()
+        ):
             raise ValueError(
                 f"Floating-point data type mismatch, asked for {data.dtype}, "
                 f"Pace configured for {pfloat()}"

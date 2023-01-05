@@ -23,7 +23,7 @@ T = TypeVar("T")
 
 def pfloat():
     """Parametric float to switch precision mode real numbers."""
-    return np.float32
+    return np.float64
 
 
 def list_by_dims(
