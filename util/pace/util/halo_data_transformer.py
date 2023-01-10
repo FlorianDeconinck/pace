@@ -712,9 +712,6 @@ class HaloDataTransformerGPU(HaloDataTransformer):
 
             # Use private stream
             with self._get_stream(cu_kernel_args.stream):
-                if quantity.metadata.dtype != np.float64:
-                    raise RuntimeError(f"Kernel requires f64 given {np.float64}")
-
                 # Launch kernel
                 blocks = 128
                 grid_x = (info_x.pack_buffer_size // blocks) + 1
@@ -778,12 +775,8 @@ class HaloDataTransformerGPU(HaloDataTransformer):
 
             # Use private stream
             with self._get_stream(cu_kernel_args.stream):
-
                 # Buffer sizes
                 transformer_size = info_x.pack_buffer_size + info_y.pack_buffer_size
-
-                if quantity_x.metadata.dtype != np.float64:
-                    raise RuntimeError(f"Kernel requires f64 given {np.float64}")
 
                 # Launch kernel
                 blocks = 128
@@ -924,10 +917,6 @@ class HaloDataTransformerGPU(HaloDataTransformer):
             info_x,
             info_y,
         ) in zip(quantities_x, quantities_y, self._infos_x, self._infos_y):
-            # We only have writte a f64 kernel
-            if quantity_x.metadata.dtype != np.float64:
-                raise RuntimeError(f"Kernel requires f64 given {np.float64}")
-
             cu_kernel_args = self._cu_kernel_args[info_x._id]
 
             # Use private stream
